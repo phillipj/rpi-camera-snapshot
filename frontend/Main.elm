@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (style, href)
+import Html.Attributes exposing (class, href, style)
 import Html.Events exposing (onClick)
 import Http
 import Json.Decode as Decode
@@ -100,22 +100,26 @@ progressToHtml state =
     Failed ->
       p [ style [("color", "red")] ] [ text "Failed to capture photo 💥" ]
 
+
 photoToHtml : Maybe Photo -> Html Msg
 photoToHtml possiblyPhoto =
   case possiblyPhoto of
-    (Just photo) ->
+    Just photo ->
       let
         styles = style [ ("border", "2px solid grey") ]
       in
         img [ styles, href photo.src ] []
 
     Nothing ->
-      p [] [ text "No photo captured yet" ]
+      p [] [ text "No photo captured yet, click the button..." ]
+
 
 view : Model -> Html Msg
 view model =
   div []
-    [ button [ onClick CapturePhoto ] [ text ("Capture photo") ]
+    [ h1 [ class "text-center" ] [ text "Raspberry Pi Camera" ]
+    , hr [] []
+    , button [ onClick CapturePhoto ] [ text ("Capture photo") ]
     , progressToHtml model.state
     , div [] [ (photoToHtml model.lastPhoto) ]
     ]
