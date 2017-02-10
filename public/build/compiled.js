@@ -9039,7 +9039,7 @@ var _user$project$Main$photoToHtml = function (possiblyPhoto) {
 		var styles = _elm_lang$html$Html_Attributes$style(
 			{
 				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: 'border', _1: '2px solid lightgrey'},
+				_0: {ctor: '_Tuple2', _0: 'border', _1: '1px solid lightgrey'},
 				_1: {
 					ctor: '::',
 					_0: {ctor: '_Tuple2', _0: 'width', _1: '100%'},
@@ -9062,60 +9062,10 @@ var _user$project$Main$photoToHtml = function (possiblyPhoto) {
 		return _elm_lang$html$Html$text('');
 	}
 };
-var _user$project$Main$progressToHtml = function (state) {
-	var _p1 = state;
-	switch (_p1.ctor) {
-		case 'Initial':
-			return A2(
-				_elm_lang$html$Html$p,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(''),
-					_1: {ctor: '[]'}
-				});
-		case 'Fetching':
-			return A2(
-				_elm_lang$html$Html$p,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Capturing photo..'),
-					_1: {ctor: '[]'}
-				});
-		case 'Fetched':
-			return A2(
-				_elm_lang$html$Html$p,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Photo captured successfully.'),
-					_1: {ctor: '[]'}
-				});
-		default:
-			return A2(
-				_elm_lang$html$Html$p,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$style(
-						{
-							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'color', _1: 'red'},
-							_1: {ctor: '[]'}
-						}),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Failed to capture photo 💥'),
-					_1: {ctor: '[]'}
-				});
-	}
-};
 var _user$project$Main$resolveReqIdFilter = F2(
 	function (currentFilter, wantedFilter) {
-		var _p2 = currentFilter;
-		if (_p2.ctor === 'Just') {
+		var _p1 = currentFilter;
+		if (_p1.ctor === 'Just') {
 			return _elm_lang$core$Maybe$Nothing;
 		} else {
 			return _elm_lang$core$Maybe$Just(wantedFilter);
@@ -9130,9 +9080,9 @@ var _user$project$Main$jsonPhotoDecoder = A2(
 	A2(_elm_lang$core$Json_Decode$field, 'src', _elm_lang$core$Json_Decode$string));
 var _user$project$Main$jsonToPhoto = function (str) {
 	var decoded = A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Main$jsonPhotoDecoder, str);
-	var _p3 = decoded;
-	if (_p3.ctor === 'Ok') {
-		return _elm_lang$core$Maybe$Just(_p3._0);
+	var _p2 = decoded;
+	if (_p2.ctor === 'Ok') {
+		return _elm_lang$core$Maybe$Just(_p2._0);
 	} else {
 		return _elm_lang$core$Maybe$Nothing;
 	}
@@ -9142,6 +9092,20 @@ var _user$project$Main$Model = F2(
 		return {lastPhoto: a, state: b};
 	});
 var _user$project$Main$Failed = {ctor: 'Failed'};
+var _user$project$Main$failureFeedback = function (progress) {
+	return _elm_lang$core$Native_Utils.eq(progress, _user$project$Main$Failed) ? A2(
+		_elm_lang$html$Html$p,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('alert alert-danger'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Oh my 🙀 I\'m sorry, but capturing a new photo failed.'),
+			_1: {ctor: '[]'}
+		}) : _elm_lang$html$Html$text('');
+};
 var _user$project$Main$Fetched = {ctor: 'Fetched'};
 var _user$project$Main$Fetching = {ctor: 'Fetching'};
 var _user$project$Main$Initial = {ctor: 'Initial'};
@@ -9159,8 +9123,8 @@ var _user$project$Main$requestNewPhoto = function () {
 }();
 var _user$project$Main$update = F2(
 	function (msg, model) {
-		var _p4 = msg;
-		if (_p4.ctor === 'CapturePhoto') {
+		var _p3 = msg;
+		if (_p3.ctor === 'CapturePhoto') {
 			return {
 				ctor: '_Tuple2',
 				_0: _elm_lang$core$Native_Utils.update(
@@ -9169,12 +9133,12 @@ var _user$project$Main$update = F2(
 				_1: _user$project$Main$requestNewPhoto
 			};
 		} else {
-			if (_p4._0.ctor === 'Ok') {
+			if (_p3._0.ctor === 'Ok') {
 				return {
 					ctor: '_Tuple2',
 					_0: A2(
 						_user$project$Main$Model,
-						_user$project$Main$jsonToPhoto(_p4._0._0),
+						_user$project$Main$jsonToPhoto(_p3._0._0),
 						_user$project$Main$Fetched),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
@@ -9208,7 +9172,7 @@ var _user$project$Main$captureButton = function (progress) {
 							_0: {ctor: '_Tuple2', _0: 'background-color', _1: '#f9f9f9'},
 							_1: {
 								ctor: '::',
-								_0: {ctor: '_Tuple2', _0: 'border', _1: 'none'},
+								_0: {ctor: '_Tuple2', _0: 'border', _1: '1px solid lightgrey'},
 								_1: {
 									ctor: '::',
 									_0: {ctor: '_Tuple2', _0: 'font-size', _1: '50px'},
@@ -9263,10 +9227,10 @@ var _user$project$Main$view = function (model) {
 					{ctor: '[]'}),
 				_1: {
 					ctor: '::',
-					_0: _user$project$Main$captureButton(model.state),
+					_0: _user$project$Main$failureFeedback(model.state),
 					_1: {
 						ctor: '::',
-						_0: _user$project$Main$progressToHtml(model.state),
+						_0: _user$project$Main$captureButton(model.state),
 						_1: {
 							ctor: '::',
 							_0: A2(

@@ -88,17 +88,12 @@ update msg model =
 
 -- VIEW
 
-progressToHtml : Progress -> Html Msg
-progressToHtml state =
-  case state of
-    Initial ->
-      p [] [ text "" ]
-    Fetching ->
-      p [] [ text "Capturing photo.." ]
-    Fetched ->
-      p [] [ text "Photo captured successfully." ]
-    Failed ->
-      p [ style [("color", "red")] ] [ text "Failed to capture photo 💥" ]
+failureFeedback : Progress -> Html Msg
+failureFeedback progress =
+  if progress == Failed then
+    p [ class "alert alert-danger" ] [ text "Oh my 🙀 I'm sorry, but capturing a new photo failed." ]
+  else
+    text ""
 
 
 photoToHtml : Maybe Photo -> Html Msg
@@ -106,7 +101,7 @@ photoToHtml possiblyPhoto =
   case possiblyPhoto of
     Just photo ->
       let
-        styles = style [ ("border", "2px solid lightgrey")
+        styles = style [ ("border", "1px solid lightgrey")
                        , ("width", "100%")
                        ]
       in
@@ -124,7 +119,7 @@ captureButton progress =
     button [ style [ ("width", "100%")
                    , ("min-height", "200px")
                    , ("background-color", "#f9f9f9")
-                   , ("border", "none")
+                   , ("border", "1px solid lightgrey")
                    , ("font-size", "50px")
                    ]
            , onClick CapturePhoto
@@ -135,7 +130,7 @@ view model =
   div []
     [ h1 [ class "text-center" ] [ text "Raspberry Pi Camera" ]
     , hr [] []
+    , failureFeedback model.state
     , captureButton model.state
-    , progressToHtml model.state
     , div [] [ (photoToHtml model.lastPhoto) ]
     ]
