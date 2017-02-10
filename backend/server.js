@@ -6,8 +6,15 @@ const RaspiCam = require('raspicam');
 
 const app = express();
 const camera = new RaspiCam({
+  // general options
   mode: 'photo',
-  output: path.join(__dirname, '..', 'public', 'photos', 'photo-%d.jpg')
+  output: path.join(__dirname, '..', 'public', 'photos', 'photo-%d.jpg'),
+
+  // photo options
+  quality: 100,
+  // max resolution
+  width: 2592,
+  height: 1944
 });
 
 const isProduction = process.env.NODE_ENV === 'production';
