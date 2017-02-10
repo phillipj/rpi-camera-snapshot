@@ -12,6 +12,8 @@ const camera = new RaspiCam({
 
   // photo options
   quality: 100,
+  encoding: 'jpg',
+  awb: 'auto', // auto white balance
   // max resolution
   width: 2592,
   height: 1944
