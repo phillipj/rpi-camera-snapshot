@@ -6,6 +6,7 @@ const RaspiCam = require('raspicam');
 
 const app = express();
 const camera = new RaspiCam({
+  mode: 'photo',
   output: path.join(__dirname, '..', 'public', 'photos', 'photo-%d.jpg')
 });
 
