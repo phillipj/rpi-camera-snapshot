@@ -9059,14 +9059,7 @@ var _user$project$Main$photoToHtml = function (possiblyPhoto) {
 			},
 			{ctor: '[]'});
 	} else {
-		return A2(
-			_elm_lang$html$Html$p,
-			{ctor: '[]'},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text('No photo captured yet, click the button...'),
-				_1: {ctor: '[]'}
-			});
+		return _elm_lang$html$Html$text('');
 	}
 };
 var _user$project$Main$progressToHtml = function (state) {
