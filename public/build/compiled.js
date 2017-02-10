@@ -9043,11 +9043,7 @@ var _user$project$Main$photoToHtml = function (possiblyPhoto) {
 				_1: {
 					ctor: '::',
 					_0: {ctor: '_Tuple2', _0: 'width', _1: '100%'},
-					_1: {
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'margin-top', _1: '15px'},
-						_1: {ctor: '[]'}
-					}
+					_1: {ctor: '[]'}
 				}
 			});
 		return A2(
