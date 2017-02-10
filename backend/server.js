@@ -7,7 +7,7 @@ const RaspiCam = require('raspicam');
 const app = express();
 const camera = new RaspiCam({
   mode: 'photo',
-  output: path.join(__dirname, 'public', 'photos', 'photo-%d')
+  output: path.join(__dirname, '..', 'public', 'photos', 'photo-%d')
 });
 
 const isProduction = process.env.NODE_ENV === 'production';
