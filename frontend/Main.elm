@@ -113,7 +113,7 @@ photoToHtml possiblyPhoto =
         img [ styles, src photo.src ] []
 
     Nothing ->
-      p [] [ text "No photo captured yet, click the button..." ]
+      text ""
 
 
 view : Model -> Html Msg
