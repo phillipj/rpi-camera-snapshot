@@ -1,7 +1,7 @@
 module Main exposing (..)
 
 import Html exposing (..)
-import Html.Attributes exposing (class, href, style)
+import Html.Attributes exposing (class, src, style)
 import Html.Events exposing (onClick)
 import Http
 import Json.Decode as Decode
@@ -106,9 +106,9 @@ photoToHtml possiblyPhoto =
   case possiblyPhoto of
     Just photo ->
       let
-        styles = style [ ("border", "2px solid grey") ]
+        styles = style [ ("border", "2px solid lightgrey") ]
       in
-        img [ styles, href photo.src ] []
+        img [ styles, src photo.src ] []
 
     Nothing ->
       p [] [ text "No photo captured yet, click the button..." ]
