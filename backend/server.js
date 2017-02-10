@@ -5,10 +5,11 @@ const path = require('path');
 const RaspiCam = require('raspicam');
 
 const app = express();
+const photosDirectory = path.join(__dirname, '..', 'public', 'photos');
 const camera = new RaspiCam({
   // general options
   mode: 'photo',
-  output: path.join(__dirname, '..', 'public', 'photos', 'photo-%d.jpg'),
+  output: path.join(photosDirectory, '_photo.jpg'),
 
   // photo options
   quality: 100,
@@ -50,15 +51,35 @@ function capturePhoto() {
   });
 }
 
+function renamePhotoWithTimestamp(originalFilename) {
+  const extension = path.extname(originalFilename);
+  const originalFilepath = path.join(photosDirectory, originalFilepath);
+  const filenameWithTimestamp = Date.now() + extension;
+  const pathWithTimestamp = path.join(photosDirectory, filenameWithTimestamp);
+
+  return new Promise((resolve, reject) => {
+    fs.rename(originalFilepath, pathWithTimestamp, (err) => {
+      if (err) {
+        return reject(err);
+      }
+
+      resolve(filenameWithTimestamp);
+    });
+  });
+}
+
 app.use('/', express.static(path.join(__dirname, '..', 'public')));
 
 app.get('/photo', (req, res) => {
   if (isProduction) {
-    capturePhoto().then((photoPath) => {
-      res.json({ src: `photos/${photoPath}` });
-    }, (err) => {
-      res.status(500).end(String(err));
-    });
+    capturePhoto()
+      .then(renamePhotoWithTimestamp)
+      .then((filename) => {
+        const photoFileUrl = `photos/${filename}`
+        res.json({ src: photoFileUrl });
+      }, (err) => {
+        res.status(500).end(String(err));
+      });
   } else {
     respondWithExamplePhoto(res);
   }
