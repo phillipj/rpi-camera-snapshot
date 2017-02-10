@@ -106,7 +106,9 @@ photoToHtml possiblyPhoto =
   case possiblyPhoto of
     Just photo ->
       let
-        styles = style [ ("border", "2px solid lightgrey") ]
+        styles = style [ ("border", "2px solid lightgrey")
+                       , ("width", "100%")
+                       ]
       in
         img [ styles, src photo.src ] []
 
