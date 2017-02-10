@@ -9040,7 +9040,11 @@ var _user$project$Main$photoToHtml = function (possiblyPhoto) {
 			{
 				ctor: '::',
 				_0: {ctor: '_Tuple2', _0: 'border', _1: '2px solid lightgrey'},
-				_1: {ctor: '[]'}
+				_1: {
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'width', _1: '100%'},
+					_1: {ctor: '[]'}
+				}
 			});
 		return A2(
 			_elm_lang$html$Html$img,
