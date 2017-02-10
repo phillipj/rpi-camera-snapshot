@@ -5,7 +5,7 @@
   "main": "backend/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "elm make frontend/Main.elm --output public/compiled.js --warn --yes"
+    "build": "rimraf public/build && elm make frontend/Main.elm --output public/build/compiled.js --warn --yes"
   },
   "private": true,
   "keywords": [
@@ -18,5 +18,8 @@
   "dependencies": {
     "elm": "^0.18.0",
     "express": "^4.13.4"
+  },
+  "devDependencies": {
+    "rimraf": "2.5.4"
   }
 }
