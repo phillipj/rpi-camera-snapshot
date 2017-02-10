@@ -1,30 +1,27 @@
-'use strict'
+const express = require('express');
+const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const fs = require('fs');
+const path = require('path');
 
-var express = require('express');
-var app = express();
-var http = require('http').Server(app);
-var io = require('socket.io')(http);
-var fs = require('fs');
-var path = require('path');
+const spawn = require('child_process').spawn;
+let proc;
 
-var spawn = require('child_process').spawn;
-var proc;
+app.use('/', express.static(path.join(__dirname, '..', 'stream')));
 
-app.use('/', express.static(path.join(__dirname, 'stream')));
-
-
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'index.html'));
 });
 
-var sockets = {};
+let sockets = {};
 
-io.on('connection', function(socket) {
+io.on('connection', (socket) => {
 
   sockets[socket.id] = socket;
   console.log("Total clients connected : ", Object.keys(sockets).length);
 
-  socket.on('disconnect', function() {
+  socket.on('disconnect', () => {
     delete sockets[socket.id];
 
     // no more sockets, kill the stream
@@ -35,20 +32,20 @@ io.on('connection', function(socket) {
     }
   });
 
-  socket.on('start-stream', function() {
+  socket.on('start-stream', () => {
     startStreaming(io);
   });
 
 });
 
-http.listen(3000, function() {
-  console.log('listening on *:3000');
-});
+http.listen(3000, () => console.log('listening on *:3000'));
 
 function stopStreaming() {
   if (Object.keys(sockets).length == 0) {
     app.set('watchingFile', false);
-    if (proc) proc.kill();
+    if (proc) {
+      proc.kill();
+    }
     fs.unwatchFile('./stream/image_stream.jpg');
   }
 }
@@ -67,8 +64,7 @@ function startStreaming(io) {
 
   app.set('watchingFile', true);
 
-  fs.watchFile('./stream/image_stream.jpg', function(current, previous) {
+  fs.watchFile('./stream/image_stream.jpg', (current, previous) => {
     io.sockets.emit('liveStream', 'image_stream.jpg?_t=' + (Math.random() * 100000));
-  })
-
+  });
 }
