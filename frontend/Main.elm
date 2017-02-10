@@ -103,6 +103,7 @@ photoToHtml possiblyPhoto =
       let
         styles = style [ ("border", "1px solid lightgrey")
                        , ("width", "100%")
+                       , ("margin-top", "15px")
                        ]
       in
         img [ styles, src photo.src ] []
