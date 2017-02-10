@@ -8,7 +8,7 @@ const path = require('path');
 const spawn = require('child_process').spawn;
 let proc;
 
-app.use('/', express.static(path.join(__dirname, '..', 'stream')));
+app.use('/', express.static(path.join(__dirname, '..', 'public')));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '..', 'index.html'));

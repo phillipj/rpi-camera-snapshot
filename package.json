@@ -4,7 +4,8 @@
   "description": "Taking camera photos with a Raspberry Pi",
   "main": "backend/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "elm make frontend/Main.elm --output public/compiled.js --warn --yes"
   },
   "private": true,
   "keywords": [
@@ -15,6 +16,7 @@
   "author": "Phillip Johnsen <johphi@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "elm": "^0.18.0",
     "express": "^4.13.4",
     "socket.io": "^1.4.5"
   }

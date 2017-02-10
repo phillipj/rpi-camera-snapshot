@@ -9,6 +9,7 @@ on a Raspberry Pi to capture photos.
 
 ```bash
 $ npm install
+$ npm run build # builds Elm frontend to JavaScript
 $ node .
 ```
 
