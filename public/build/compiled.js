@@ -9190,6 +9190,53 @@ var _user$project$Main$update = F2(
 		}
 	});
 var _user$project$Main$CapturePhoto = {ctor: 'CapturePhoto'};
+var _user$project$Main$captureButton = function (progress) {
+	var cssClass = (!_elm_lang$core$Native_Utils.eq(progress, _user$project$Main$Fetching)) ? 'glyphicon glyphicon-camera' : 'glyphicon glyphicon-camera spinning';
+	return A2(
+		_elm_lang$html$Html$button,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$style(
+				{
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'width', _1: '100%'},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'min-height', _1: '200px'},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'background-color', _1: '#f9f9f9'},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'border', _1: 'none'},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'font-size', _1: '50px'},
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$CapturePhoto),
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$span,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class(cssClass),
+					_1: {ctor: '[]'}
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		});
+};
 var _user$project$Main$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -9216,18 +9263,7 @@ var _user$project$Main$view = function (model) {
 					{ctor: '[]'}),
 				_1: {
 					ctor: '::',
-					_0: A2(
-						_elm_lang$html$Html$button,
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$CapturePhoto),
-							_1: {ctor: '[]'}
-						},
-						{
-							ctor: '::',
-							_0: _elm_lang$html$Html$text('Capture photo'),
-							_1: {ctor: '[]'}
-						}),
+					_0: _user$project$Main$captureButton(model.state),
 					_1: {
 						ctor: '::',
 						_0: _user$project$Main$progressToHtml(model.state),

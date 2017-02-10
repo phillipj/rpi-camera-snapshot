@@ -115,13 +115,27 @@ photoToHtml possiblyPhoto =
     Nothing ->
       text ""
 
+captureButton : Progress -> Html Msg
+captureButton progress =
+  let
+    cssClass =
+      if progress /= Fetching then "glyphicon glyphicon-camera" else "glyphicon glyphicon-camera spinning"
+  in
+    button [ style [ ("width", "100%")
+                   , ("min-height", "200px")
+                   , ("background-color", "#f9f9f9")
+                   , ("border", "none")
+                   , ("font-size", "50px")
+                   ]
+           , onClick CapturePhoto
+           ] [ span [ class cssClass ] [] ]
 
 view : Model -> Html Msg
 view model =
   div []
     [ h1 [ class "text-center" ] [ text "Raspberry Pi Camera" ]
     , hr [] []
-    , button [ onClick CapturePhoto ] [ text ("Capture photo") ]
+    , captureButton model.state
     , progressToHtml model.state
     , div [] [ (photoToHtml model.lastPhoto) ]
     ]
