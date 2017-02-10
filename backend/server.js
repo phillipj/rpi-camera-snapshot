@@ -36,7 +36,10 @@ function capturePhoto() {
         return reject(err);
       }
 
-      resolve(filename);
+      const isTemporaryFile = filename.includes('~');
+      if (!isTemporaryFile) {
+        resolve(filename);
+      }
     });
 
     camera.on('exit', () => {
@@ -50,7 +53,7 @@ app.use('/', express.static(path.join(__dirname, '..', 'public')));
 app.get('/photo', (req, res) => {
   if (isProduction) {
     capturePhoto().then((photoPath) => {
-      res.json({ src: photoPath });
+      res.json({ src: `photos/${photoPath}` });
     }, (err) => {
       res.status(500).end(String(err));
     });
