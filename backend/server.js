@@ -53,7 +53,7 @@ function capturePhoto() {
 
 function renamePhotoWithTimestamp(originalFilename) {
   const extension = path.extname(originalFilename);
-  const originalFilepath = path.join(photosDirectory, originalFilepath);
+  const originalFilepath = path.join(photosDirectory, originalFilename);
   const filenameWithTimestamp = Date.now() + extension;
   const pathWithTimestamp = path.join(photosDirectory, filenameWithTimestamp);
 
