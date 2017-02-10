@@ -13,7 +13,13 @@ $ npm run build # builds Elm frontend to JavaScript
 $ node .
 ```
 
-Then visit http://localhost:3000 in your favorite browser.
+Then visit [http://localhost:3000](http://localhost:3000) in your favorite browser.
+
+## Local development
+
+```bash
+$ npm start
+```
 
 ## License
 

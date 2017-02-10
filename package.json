@@ -5,7 +5,8 @@
   "main": "backend/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rimraf public/build && elm make frontend/Main.elm --output public/build/compiled.js --warn --yes"
+    "build": "rimraf public/build && elm make frontend/Main.elm --output public/build/compiled.js --warn --yes",
+    "start": "elm-live frontend/Main.elm --dir=public --output=public/build/compiled.js --open"
   },
   "private": true,
   "keywords": [
@@ -21,6 +22,7 @@
     "raspicam": "0.2.13"
   },
   "devDependencies": {
+    "elm-live": "2.7.4",
     "rimraf": "2.5.4"
   }
 }
