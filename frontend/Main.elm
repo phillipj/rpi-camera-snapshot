@@ -115,7 +115,7 @@ captureButton : Progress -> Html Msg
 captureButton progress =
   let
     cssClass =
-      if progress /= Fetching then "glyphicon glyphicon-camera" else "glyphicon glyphicon-camera spinning"
+      if progress == Fetching then "glyphicon glyphicon-camera spinning" else "glyphicon glyphicon-camera"
   in
     button [ style [ ("width", "100%")
                    , ("min-height", "200px")
@@ -129,9 +129,7 @@ captureButton progress =
 view : Model -> Html Msg
 view model =
   div []
-    [ h1 [ class "text-center" ] [ text "Raspberry Pi Camera" ]
-    , hr [] []
-    , failureFeedback model.state
-    , captureButton model.state
-    , div [] [ (photoToHtml model.lastPhoto) ]
+    [ failureFeedback model.state
+    , p [] [ (captureButton model.state) ]
+    , p [] [ (photoToHtml model.lastPhoto) ]
     ]

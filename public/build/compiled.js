@@ -9159,7 +9159,7 @@ var _user$project$Main$update = F2(
 	});
 var _user$project$Main$CapturePhoto = {ctor: 'CapturePhoto'};
 var _user$project$Main$captureButton = function (progress) {
-	var cssClass = (!_elm_lang$core$Native_Utils.eq(progress, _user$project$Main$Fetching)) ? 'glyphicon glyphicon-camera' : 'glyphicon glyphicon-camera spinning';
+	var cssClass = _elm_lang$core$Native_Utils.eq(progress, _user$project$Main$Fetching) ? 'glyphicon glyphicon-camera spinning' : 'glyphicon glyphicon-camera';
 	return A2(
 		_elm_lang$html$Html$button,
 		{
@@ -9211,43 +9211,28 @@ var _user$project$Main$view = function (model) {
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$h1,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class('text-center'),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text('Raspberry Pi Camera'),
-					_1: {ctor: '[]'}
-				}),
+			_0: _user$project$Main$failureFeedback(model.state),
 			_1: {
 				ctor: '::',
 				_0: A2(
-					_elm_lang$html$Html$hr,
+					_elm_lang$html$Html$p,
 					{ctor: '[]'},
-					{ctor: '[]'}),
-				_1: {
-					ctor: '::',
-					_0: _user$project$Main$failureFeedback(model.state),
-					_1: {
+					{
 						ctor: '::',
 						_0: _user$project$Main$captureButton(model.state),
-						_1: {
+						_1: {ctor: '[]'}
+					}),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_elm_lang$html$Html$p,
+						{ctor: '[]'},
+						{
 							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$div,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _user$project$Main$photoToHtml(model.lastPhoto),
-									_1: {ctor: '[]'}
-								}),
+							_0: _user$project$Main$photoToHtml(model.lastPhoto),
 							_1: {ctor: '[]'}
-						}
-					}
+						}),
+					_1: {ctor: '[]'}
 				}
 			}
 		});
