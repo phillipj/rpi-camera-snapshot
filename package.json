@@ -2,13 +2,17 @@
   "name": "rpi-camera-stream",
   "version": "1.0.0",
   "description": "Live camera streaming from a Raspberry Pi",
-  "main": "index.js",
+  "main": "backend/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "private": true,
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "raspberry",
+    "raspberry-pi",
+    "camera"
+  ],
+  "author": "Phillip Johnsen <johphi@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "express": "^4.13.4",
