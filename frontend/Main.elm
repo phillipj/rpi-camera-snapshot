@@ -100,13 +100,19 @@ update msg model =
     CapturePhoto ->
       ({ model | state = Fetching }, requestNewPhoto)
     NewPhoto (Ok jsonString) ->
-      (Model (jsonToPhoto jsonString) model.photos Fetched model.historicalState, Cmd.none)
+      ({ model
+          | lastPhoto = (jsonToPhoto jsonString)
+          , state = Fetched
+       }, Cmd.none)
     NewPhoto (Err _) ->
       ({ model | state = Failed }, Cmd.none)
     FetchHistoricalPhotos ->
       ({ model | historicalState = Fetching }, requestHistoricalPhotos)
     HistoricalPhotos (Ok photos) ->
-      (Model model.lastPhoto (toMaybePhotos photos) model.state Fetched, Cmd.none)
+      ({ model
+          | photos = (toMaybePhotos photos)
+          , historicalState = Fetched
+       }, Cmd.none)
     HistoricalPhotos (Err err) ->
       ({ model | historicalState = Failed }, Cmd.none)
 
