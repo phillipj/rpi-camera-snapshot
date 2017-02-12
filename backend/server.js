@@ -85,4 +85,16 @@ app.get('/photo', (req, res) => {
   }
 });
 
+app.get('/historical-photos', (req, res) => {
+  fs.readdir(photosDirectory, (err, files) => {
+    if (err) {
+      return res.status(500).end('Could not read photos directory');
+    }
+
+    const photos = files.map(file => `photos/${file}`)
+                        .map(url => ({ src: url }));
+    res.json(photos);
+  });
+});
+
 http.createServer(app).listen(3000, () => console.log('listening on *:3000'));
