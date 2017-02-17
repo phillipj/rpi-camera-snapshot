@@ -9033,7 +9033,75 @@ var _elm_lang$http$Http$StringPart = F2(
 	});
 var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
 
-var _user$project$Main$photoToImg = function (possiblyPhoto) {
+var _user$project$Model$Model = F4(
+	function (a, b, c, d) {
+		return {lastPhoto: a, photos: b, state: c, historicalState: d};
+	});
+var _user$project$Model$Photo = function (a) {
+	return {src: a};
+};
+var _user$project$Model$Failed = {ctor: 'Failed'};
+var _user$project$Model$Fetched = {ctor: 'Fetched'};
+var _user$project$Model$Fetching = {ctor: 'Fetching'};
+var _user$project$Model$Initial = {ctor: 'Initial'};
+
+var _user$project$Messages$HistoricalPhotos = function (a) {
+	return {ctor: 'HistoricalPhotos', _0: a};
+};
+var _user$project$Messages$FetchHistoricalPhotos = {ctor: 'FetchHistoricalPhotos'};
+var _user$project$Messages$NewPhoto = function (a) {
+	return {ctor: 'NewPhoto', _0: a};
+};
+var _user$project$Messages$CapturePhoto = {ctor: 'CapturePhoto'};
+
+var _user$project$View$captureButton = function (progress) {
+	var cssClass = _elm_lang$core$Native_Utils.eq(progress, _user$project$Model$Fetching) ? 'glyphicon glyphicon-camera spinning' : 'glyphicon glyphicon-camera';
+	return A2(
+		_elm_lang$html$Html$button,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$style(
+				{
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: 'width', _1: '100%'},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'height', _1: '150px'},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'background-color', _1: '#f9f9f9'},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'border', _1: '1px solid lightgrey'},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'font-size', _1: '50px'},
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$html$Html_Events$onClick(_user$project$Messages$CapturePhoto),
+				_1: {ctor: '[]'}
+			}
+		},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$span,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$class(cssClass),
+					_1: {ctor: '[]'}
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		});
+};
+var _user$project$View$photoToImg = function (possiblyPhoto) {
 	var _p0 = possiblyPhoto;
 	if (_p0.ctor === 'Just') {
 		var styles = _elm_lang$html$Html_Attributes$style(
@@ -9062,7 +9130,35 @@ var _user$project$Main$photoToImg = function (possiblyPhoto) {
 		return _elm_lang$html$Html$text('');
 	}
 };
-var _user$project$Main$historicalPhotoPlaceholder = function (rightMargin) {
+var _user$project$View$captureFailureFeedback = function (progress) {
+	return _elm_lang$core$Native_Utils.eq(progress, _user$project$Model$Failed) ? A2(
+		_elm_lang$html$Html$p,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('alert alert-danger'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Oh my 🙀 I\'m sorry, but capturing a new photo failed.'),
+			_1: {ctor: '[]'}
+		}) : _elm_lang$html$Html$text('');
+};
+var _user$project$View$historicalFailureFeedback = function (progress) {
+	return _elm_lang$core$Native_Utils.eq(progress, _user$project$Model$Failed) ? A2(
+		_elm_lang$html$Html$p,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$class('alert alert-danger'),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Booom 💥 I\'m sorry, but fetching historical photos failed.'),
+			_1: {ctor: '[]'}
+		}) : _elm_lang$html$Html$text('');
+};
+var _user$project$View$historicalPhotoPlaceholder = function (rightMargin) {
 	var inlineStyles = {
 		ctor: '::',
 		_0: {ctor: '_Tuple2', _0: 'width', _1: '100%'},
@@ -9121,7 +9217,7 @@ var _user$project$Main$historicalPhotoPlaceholder = function (rightMargin) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$Main$historicalPhotoHtml = F2(
+var _user$project$View$historicalPhotoHtml = F2(
 	function (photo, rightMargin) {
 		var inlineStyles = {
 			ctor: '::',
@@ -9150,19 +9246,19 @@ var _user$project$Main$historicalPhotoHtml = F2(
 			},
 			{ctor: '[]'});
 	});
-var _user$project$Main$createPhotoRowItemFn = F3(
+var _user$project$View$createPhotoRowItemFn = F3(
 	function (photosCount, index, possiblyPhoto) {
 		var isLastPhoto = _elm_lang$core$Native_Utils.eq(index, photosCount - 1);
 		var rightMargin = isLastPhoto ? '0px' : '5px';
 		var _p1 = possiblyPhoto;
 		if (_p1.ctor === 'Just') {
-			return A2(_user$project$Main$historicalPhotoHtml, _p1._0, rightMargin);
+			return A2(_user$project$View$historicalPhotoHtml, _p1._0, rightMargin);
 		} else {
-			return _user$project$Main$historicalPhotoPlaceholder(rightMargin);
+			return _user$project$View$historicalPhotoPlaceholder(rightMargin);
 		}
 	});
-var _user$project$Main$photosToImgRow = function (photos) {
-	var photoToImgRowItem = _user$project$Main$createPhotoRowItemFn(
+var _user$project$View$photosToImgRow = function (photos) {
+	var photoToImgRowItem = _user$project$View$createPhotoRowItemFn(
 		_elm_lang$core$List$length(photos));
 	var photosAsImg = A2(_elm_lang$core$List$indexedMap, photoToImgRowItem, photos);
 	return A2(
@@ -9183,16 +9279,55 @@ var _user$project$Main$photosToImgRow = function (photos) {
 		},
 		photosAsImg);
 };
-var _user$project$Main$resolveReqIdFilter = F2(
-	function (currentFilter, wantedFilter) {
-		var _p2 = currentFilter;
-		if (_p2.ctor === 'Just') {
-			return _elm_lang$core$Maybe$Nothing;
-		} else {
-			return _elm_lang$core$Maybe$Just(wantedFilter);
-		}
-	});
-var _user$project$Main$toMaybePhotos = function (photos) {
+var _user$project$View$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{ctor: '[]'},
+				{
+					ctor: '::',
+					_0: _user$project$View$photosToImgRow(model.photos),
+					_1: {ctor: '[]'}
+				}),
+			_1: {
+				ctor: '::',
+				_0: _user$project$View$historicalFailureFeedback(model.historicalState),
+				_1: {
+					ctor: '::',
+					_0: _user$project$View$captureFailureFeedback(model.state),
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$html$Html$p,
+							{ctor: '[]'},
+							{
+								ctor: '::',
+								_0: _user$project$View$captureButton(model.state),
+								_1: {ctor: '[]'}
+							}),
+						_1: {
+							ctor: '::',
+							_0: A2(
+								_elm_lang$html$Html$p,
+								{ctor: '[]'},
+								{
+									ctor: '::',
+									_0: _user$project$View$photoToImg(model.lastPhoto),
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					}
+				}
+			}
+		});
+};
+
+var _user$project$Update$toMaybePhotos = function (photos) {
 	return A2(
 		_elm_lang$core$List$map,
 		function (photo) {
@@ -9200,70 +9335,32 @@ var _user$project$Main$toMaybePhotos = function (photos) {
 		},
 		photos);
 };
-var _user$project$Main$Photo = function (a) {
-	return {src: a};
-};
-var _user$project$Main$jsonPhotoDecoder = A2(
+var _user$project$Update$requestNewPhoto = function () {
+	var request = _elm_lang$http$Http$getString('photo');
+	return A2(_elm_lang$http$Http$send, _user$project$Messages$NewPhoto, request);
+}();
+var _user$project$Update$jsonPhotoDecoder = A2(
 	_elm_lang$core$Json_Decode$map,
-	_user$project$Main$Photo,
+	_user$project$Model$Photo,
 	A2(_elm_lang$core$Json_Decode$field, 'src', _elm_lang$core$Json_Decode$string));
-var _user$project$Main$jsonPhotoListDecoder = _elm_lang$core$Json_Decode$list(_user$project$Main$jsonPhotoDecoder);
-var _user$project$Main$jsonToPhoto = function (str) {
-	var decoded = A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Main$jsonPhotoDecoder, str);
-	var _p3 = decoded;
-	if (_p3.ctor === 'Ok') {
-		return _elm_lang$core$Maybe$Just(_p3._0);
+var _user$project$Update$jsonPhotoListDecoder = _elm_lang$core$Json_Decode$list(_user$project$Update$jsonPhotoDecoder);
+var _user$project$Update$requestHistoricalPhotos = function () {
+	var request = A2(_elm_lang$http$Http$get, 'historical-photos', _user$project$Update$jsonPhotoListDecoder);
+	return A2(_elm_lang$http$Http$send, _user$project$Messages$HistoricalPhotos, request);
+}();
+var _user$project$Update$jsonToPhoto = function (str) {
+	var decoded = A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Update$jsonPhotoDecoder, str);
+	var _p0 = decoded;
+	if (_p0.ctor === 'Ok') {
+		return _elm_lang$core$Maybe$Just(_p0._0);
 	} else {
 		return _elm_lang$core$Maybe$Nothing;
 	}
 };
-var _user$project$Main$Model = F4(
-	function (a, b, c, d) {
-		return {lastPhoto: a, photos: b, state: c, historicalState: d};
-	});
-var _user$project$Main$Failed = {ctor: 'Failed'};
-var _user$project$Main$historicalFailureFeedback = function (progress) {
-	return _elm_lang$core$Native_Utils.eq(progress, _user$project$Main$Failed) ? A2(
-		_elm_lang$html$Html$p,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('alert alert-danger'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text('Booom 💥 I\'m sorry, but fetching historical photos failed.'),
-			_1: {ctor: '[]'}
-		}) : _elm_lang$html$Html$text('');
-};
-var _user$project$Main$captureFailureFeedback = function (progress) {
-	return _elm_lang$core$Native_Utils.eq(progress, _user$project$Main$Failed) ? A2(
-		_elm_lang$html$Html$p,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$class('alert alert-danger'),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html$text('Oh my 🙀 I\'m sorry, but capturing a new photo failed.'),
-			_1: {ctor: '[]'}
-		}) : _elm_lang$html$Html$text('');
-};
-var _user$project$Main$Fetched = {ctor: 'Fetched'};
-var _user$project$Main$Fetching = {ctor: 'Fetching'};
-var _user$project$Main$Initial = {ctor: 'Initial'};
-var _user$project$Main$HistoricalPhotos = function (a) {
-	return {ctor: 'HistoricalPhotos', _0: a};
-};
-var _user$project$Main$requestHistoricalPhotos = function () {
-	var request = A2(_elm_lang$http$Http$get, 'historical-photos', _user$project$Main$jsonPhotoListDecoder);
-	return A2(_elm_lang$http$Http$send, _user$project$Main$HistoricalPhotos, request);
-}();
-var _user$project$Main$init = {
+var _user$project$Update$init = {
 	ctor: '_Tuple2',
 	_0: A4(
-		_user$project$Main$Model,
+		_user$project$Model$Model,
 		_elm_lang$core$Maybe$Nothing,
 		{
 			ctor: '::',
@@ -9278,39 +9375,31 @@ var _user$project$Main$init = {
 				}
 			}
 		},
-		_user$project$Main$Initial,
-		_user$project$Main$Initial),
-	_1: _user$project$Main$requestHistoricalPhotos
+		_user$project$Model$Initial,
+		_user$project$Model$Initial),
+	_1: _user$project$Update$requestHistoricalPhotos
 };
-var _user$project$Main$FetchHistoricalPhotos = {ctor: 'FetchHistoricalPhotos'};
-var _user$project$Main$NewPhoto = function (a) {
-	return {ctor: 'NewPhoto', _0: a};
-};
-var _user$project$Main$requestNewPhoto = function () {
-	var request = _elm_lang$http$Http$getString('photo');
-	return A2(_elm_lang$http$Http$send, _user$project$Main$NewPhoto, request);
-}();
-var _user$project$Main$update = F2(
+var _user$project$Update$update = F2(
 	function (msg, model) {
-		var _p4 = msg;
-		switch (_p4.ctor) {
+		var _p1 = msg;
+		switch (_p1.ctor) {
 			case 'CapturePhoto':
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{state: _user$project$Main$Fetching}),
-					_1: _user$project$Main$requestNewPhoto
+						{state: _user$project$Model$Fetching}),
+					_1: _user$project$Update$requestNewPhoto
 				};
 			case 'NewPhoto':
-				if (_p4._0.ctor === 'Ok') {
+				if (_p1._0.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								lastPhoto: _user$project$Main$jsonToPhoto(_p4._0._0),
-								state: _user$project$Main$Fetched
+								lastPhoto: _user$project$Update$jsonToPhoto(_p1._0._0),
+								state: _user$project$Model$Fetched
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
@@ -9319,7 +9408,7 @@ var _user$project$Main$update = F2(
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{state: _user$project$Main$Failed}),
+							{state: _user$project$Model$Failed}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				}
@@ -9328,18 +9417,18 @@ var _user$project$Main$update = F2(
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{historicalState: _user$project$Main$Fetching}),
-					_1: _user$project$Main$requestHistoricalPhotos
+						{historicalState: _user$project$Model$Fetching}),
+					_1: _user$project$Update$requestHistoricalPhotos
 				};
 			default:
-				if (_p4._0.ctor === 'Ok') {
+				if (_p1._0.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								photos: _user$project$Main$toMaybePhotos(_p4._0._0),
-								historicalState: _user$project$Main$Fetched
+								photos: _user$project$Update$toMaybePhotos(_p1._0._0),
+								historicalState: _user$project$Model$Fetched
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
@@ -9348,112 +9437,18 @@ var _user$project$Main$update = F2(
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
-							{historicalState: _user$project$Main$Failed}),
+							{historicalState: _user$project$Model$Failed}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				}
 		}
 	});
-var _user$project$Main$CapturePhoto = {ctor: 'CapturePhoto'};
-var _user$project$Main$captureButton = function (progress) {
-	var cssClass = _elm_lang$core$Native_Utils.eq(progress, _user$project$Main$Fetching) ? 'glyphicon glyphicon-camera spinning' : 'glyphicon glyphicon-camera';
-	return A2(
-		_elm_lang$html$Html$button,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$style(
-				{
-					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'width', _1: '100%'},
-					_1: {
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'height', _1: '150px'},
-						_1: {
-							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'background-color', _1: '#f9f9f9'},
-							_1: {
-								ctor: '::',
-								_0: {ctor: '_Tuple2', _0: 'border', _1: '1px solid lightgrey'},
-								_1: {
-									ctor: '::',
-									_0: {ctor: '_Tuple2', _0: 'font-size', _1: '50px'},
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}
-				}),
-			_1: {
-				ctor: '::',
-				_0: _elm_lang$html$Html_Events$onClick(_user$project$Main$CapturePhoto),
-				_1: {ctor: '[]'}
-			}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$span,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$class(cssClass),
-					_1: {ctor: '[]'}
-				},
-				{ctor: '[]'}),
-			_1: {ctor: '[]'}
-		});
-};
-var _user$project$Main$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{ctor: '[]'},
-				{
-					ctor: '::',
-					_0: _user$project$Main$photosToImgRow(model.photos),
-					_1: {ctor: '[]'}
-				}),
-			_1: {
-				ctor: '::',
-				_0: _user$project$Main$historicalFailureFeedback(model.historicalState),
-				_1: {
-					ctor: '::',
-					_0: _user$project$Main$captureFailureFeedback(model.state),
-					_1: {
-						ctor: '::',
-						_0: A2(
-							_elm_lang$html$Html$p,
-							{ctor: '[]'},
-							{
-								ctor: '::',
-								_0: _user$project$Main$captureButton(model.state),
-								_1: {ctor: '[]'}
-							}),
-						_1: {
-							ctor: '::',
-							_0: A2(
-								_elm_lang$html$Html$p,
-								{ctor: '[]'},
-								{
-									ctor: '::',
-									_0: _user$project$Main$photoToImg(model.lastPhoto),
-									_1: {ctor: '[]'}
-								}),
-							_1: {ctor: '[]'}
-						}
-					}
-				}
-			}
-		});
-};
+
 var _user$project$Main$main = _elm_lang$html$Html$program(
 	{
-		init: _user$project$Main$init,
-		view: _user$project$Main$view,
-		update: _user$project$Main$update,
+		init: _user$project$Update$init,
+		view: _user$project$View$view,
+		update: _user$project$Update$update,
 		subscriptions: _elm_lang$core$Basics$always(_elm_lang$core$Platform_Sub$none)
 	})();
 
