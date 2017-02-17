@@ -9246,7 +9246,7 @@ var _user$project$View$historicalPhotoHtml = F2(
 			},
 			{ctor: '[]'});
 	});
-var _user$project$View$createPhotoRowItemFn = F3(
+var _user$project$View$photoToImgRowItem = F3(
 	function (photosCount, index, possiblyPhoto) {
 		var isLastPhoto = _elm_lang$core$Native_Utils.eq(index, photosCount - 1);
 		var rightMargin = isLastPhoto ? '0px' : '5px';
@@ -9258,9 +9258,8 @@ var _user$project$View$createPhotoRowItemFn = F3(
 		}
 	});
 var _user$project$View$photosToImgRow = function (photos) {
-	var photoToImgRowItem = _user$project$View$createPhotoRowItemFn(
+	var photoToImg = _user$project$View$photoToImgRowItem(
 		_elm_lang$core$List$length(photos));
-	var photosAsImg = A2(_elm_lang$core$List$indexedMap, photoToImgRowItem, photos);
 	return A2(
 		_elm_lang$html$Html$p,
 		{
@@ -9277,7 +9276,7 @@ var _user$project$View$photosToImgRow = function (photos) {
 				}),
 			_1: {ctor: '[]'}
 		},
-		photosAsImg);
+		A2(_elm_lang$core$List$indexedMap, photoToImg, photos));
 };
 var _user$project$View$view = function (model) {
 	return A2(

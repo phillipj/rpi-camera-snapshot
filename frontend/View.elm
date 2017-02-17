@@ -21,32 +21,30 @@ view model =
 photosToImgRow : List (Maybe Photo) -> Html Msg
 photosToImgRow photos =
   let
-    photoToImgRowItem = createPhotoRowItemFn (List.length photos)
-    photosAsImg = (List.indexedMap photoToImgRowItem photos)
+    photoToImg = photoToImgRowItem (List.length photos)
 
   in
     p [ style [ ("display", "flex")
               , ("justify-content", "space-around")
               ]
-      ] photosAsImg
+      ] (List.indexedMap photoToImg photos)
 
 
+-- partial application in action; photosCount is provided when creating the anon function,
+-- the remaining args are provided when invoked per item in List.indexedMap
 --                   total photos count -> index -> photo -> html
-createPhotoRowItemFn : Int -> Int -> Maybe Photo -> Html Msg
-createPhotoRowItemFn =
-  -- partial application in action; photosCount is provided when creating the anon function,
-  -- the remaining args are provided when invoked per item in List.indexedMap
-  \photosCount index possiblyPhoto ->
-      let
-        isLastPhoto = index == (photosCount - 1)
-        rightMargin = if isLastPhoto then "0px" else "5px"
+photoToImgRowItem : Int -> Int -> Maybe Photo -> Html Msg
+photoToImgRowItem photosCount index possiblyPhoto =
+    let
+      isLastPhoto = index == (photosCount - 1)
+      rightMargin = if isLastPhoto then "0px" else "5px"
 
-      in
-        case possiblyPhoto of
-          Just photo ->
-            historicalPhotoHtml photo rightMargin
-          Nothing ->
-            historicalPhotoPlaceholder rightMargin
+    in
+      case possiblyPhoto of
+        Just photo ->
+          historicalPhotoHtml photo rightMargin
+        Nothing ->
+          historicalPhotoPlaceholder rightMargin
 
 historicalPhotoHtml : Photo -> String -> Html Msg
 historicalPhotoHtml photo rightMargin =
