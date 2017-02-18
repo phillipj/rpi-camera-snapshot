@@ -19,15 +19,16 @@ view model =
 
 
 photosToImgRow : List (Maybe Photo) -> Html Msg
-photosToImgRow photos =
+photosToImgRow allPhotos =
   let
-    photoToImg = photoToImgRowItem (List.length photos)
+    photosToDisplay = List.take 3 allPhotos
+    photoToImg = photoToImgRowItem (List.length photosToDisplay)
 
   in
     p [ style [ ("display", "flex")
               , ("justify-content", "space-around")
               ]
-      ] (List.indexedMap photoToImg photos)
+      ] (List.indexedMap photoToImg photosToDisplay)
 
 
 -- partial application in action; photosCount is provided when creating the anon function,

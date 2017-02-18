@@ -9235,7 +9235,7 @@ var _user$project$View$historicalPhotoHtml = F2(
 			_elm_lang$html$Html$a,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$href(''),
+				_0: _elm_lang$html$Html_Attributes$href('#'),
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Events$onClick(
@@ -9276,9 +9276,10 @@ var _user$project$View$photoToImgRowItem = F3(
 			return _user$project$View$historicalPhotoPlaceholder(rightMargin);
 		}
 	});
-var _user$project$View$photosToImgRow = function (photos) {
+var _user$project$View$photosToImgRow = function (allPhotos) {
+	var photosToDisplay = A2(_elm_lang$core$List$take, 3, allPhotos);
 	var photoToImg = _user$project$View$photoToImgRowItem(
-		_elm_lang$core$List$length(photos));
+		_elm_lang$core$List$length(photosToDisplay));
 	return A2(
 		_elm_lang$html$Html$p,
 		{
@@ -9295,7 +9296,7 @@ var _user$project$View$photosToImgRow = function (photos) {
 				}),
 			_1: {ctor: '[]'}
 		},
-		A2(_elm_lang$core$List$indexedMap, photoToImg, photos));
+		A2(_elm_lang$core$List$indexedMap, photoToImg, photosToDisplay));
 };
 var _user$project$View$view = function (model) {
 	return A2(
