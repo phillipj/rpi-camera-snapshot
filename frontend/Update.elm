@@ -31,6 +31,8 @@ update msg model =
        }, Cmd.none)
     HistoricalPhotos (Err err) ->
       ({ model | historicalState = Failed }, Cmd.none)
+    DisplayPhoto photo ->
+      ({ model | selectedPhoto = Just photo }, Cmd.none)
 
 
 init : (Model, Cmd Msg)

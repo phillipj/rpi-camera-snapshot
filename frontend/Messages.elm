@@ -10,3 +10,4 @@ type Msg
   | NewPhoto (Result Http.Error String)
   | FetchHistoricalPhotos
   | HistoricalPhotos (Result Http.Error (List Photo))
+  | DisplayPhoto Photo

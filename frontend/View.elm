@@ -1,7 +1,7 @@
 module View exposing (view)
 
 import Html exposing (..)
-import Html.Attributes exposing (class, src, style)
+import Html.Attributes exposing (class, src, style, href)
 import Html.Events exposing (onClick)
 
 import Model exposing (..)
@@ -54,7 +54,9 @@ historicalPhotoHtml photo rightMargin =
                    ]
 
   in
-    img [ src photo.src, style [("height", "60px")] ] []
+    a [ href "#", onClick (DisplayPhoto photo) ]
+      [ img [ src photo.src, style [("height", "60px")] ] []
+      ]
 
 
 historicalPhotoPlaceholder : String -> Html Msg

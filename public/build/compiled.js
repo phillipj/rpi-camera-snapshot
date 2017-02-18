@@ -9045,6 +9045,9 @@ var _user$project$Model$Fetched = {ctor: 'Fetched'};
 var _user$project$Model$Fetching = {ctor: 'Fetching'};
 var _user$project$Model$Initial = {ctor: 'Initial'};
 
+var _user$project$Messages$DisplayPhoto = function (a) {
+	return {ctor: 'DisplayPhoto', _0: a};
+};
 var _user$project$Messages$HistoricalPhotos = function (a) {
 	return {ctor: 'HistoricalPhotos', _0: a};
 };
@@ -9229,22 +9232,38 @@ var _user$project$View$historicalPhotoHtml = F2(
 			}
 		};
 		return A2(
-			_elm_lang$html$Html$img,
+			_elm_lang$html$Html$a,
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$src(photo.src),
+				_0: _elm_lang$html$Html_Attributes$href(''),
 				_1: {
 					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$style(
-						{
-							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'height', _1: '60px'},
-							_1: {ctor: '[]'}
-						}),
+					_0: _elm_lang$html$Html_Events$onClick(
+						_user$project$Messages$DisplayPhoto(photo)),
 					_1: {ctor: '[]'}
 				}
 			},
-			{ctor: '[]'});
+			{
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$img,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$src(photo.src),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Attributes$style(
+								{
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'height', _1: '60px'},
+									_1: {ctor: '[]'}
+								}),
+							_1: {ctor: '[]'}
+						}
+					},
+					{ctor: '[]'}),
+				_1: {ctor: '[]'}
+			});
 	});
 var _user$project$View$photoToImgRowItem = F3(
 	function (photosCount, index, possiblyPhoto) {
@@ -9421,7 +9440,7 @@ var _user$project$Update$update = F2(
 						{historicalState: _user$project$Model$Fetching}),
 					_1: _user$project$Update$requestHistoricalPhotos
 				};
-			default:
+			case 'HistoricalPhotos':
 				if (_p1._0.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
@@ -9442,6 +9461,16 @@ var _user$project$Update$update = F2(
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
 				}
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							selectedPhoto: _elm_lang$core$Maybe$Just(_p1._0)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 		}
 	});
 
