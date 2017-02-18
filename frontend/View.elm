@@ -14,7 +14,7 @@ view model =
     , historicalFailureFeedback model.historicalState
     , captureFailureFeedback model.state
     , p [] [ (captureButton model.state) ]
-    , p [] [ (photoToImg model.lastPhoto) ]
+    , p [] [ (photoToImg model.selectedPhoto) ]
     ]
 
 

@@ -12,10 +12,14 @@ update msg model =
     CapturePhoto ->
       ({ model | state = Fetching }, requestNewPhoto)
     NewPhoto (Ok jsonString) ->
-      ({ model
-          | lastPhoto = (jsonToPhoto jsonString)
-          , state = Fetched
-       }, Cmd.none)
+      let
+        photo = (jsonToPhoto jsonString)
+      in
+        ({ model
+            | selectedPhoto = photo
+            , state = Fetched
+            , photos = photo :: model.photos
+         }, Cmd.none)
     NewPhoto (Err _) ->
       ({ model | state = Failed }, Cmd.none)
     FetchHistoricalPhotos ->

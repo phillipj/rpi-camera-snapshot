@@ -1,7 +1,7 @@
 module Model exposing (..)
 
 type alias Model =
-  { lastPhoto : Maybe Photo
+  { selectedPhoto : Maybe Photo
   , photos : List (Maybe Photo)
   , state : Progress
   , historicalState : Progress

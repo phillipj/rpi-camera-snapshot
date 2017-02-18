@@ -9035,7 +9035,7 @@ var _elm_lang$http$Http$stringPart = _elm_lang$http$Http$StringPart;
 
 var _user$project$Model$Model = F4(
 	function (a, b, c, d) {
-		return {lastPhoto: a, photos: b, state: c, historicalState: d};
+		return {selectedPhoto: a, photos: b, state: c, historicalState: d};
 	});
 var _user$project$Model$Photo = function (a) {
 	return {src: a};
@@ -9315,7 +9315,7 @@ var _user$project$View$view = function (model) {
 								{ctor: '[]'},
 								{
 									ctor: '::',
-									_0: _user$project$View$photoToImg(model.lastPhoto),
+									_0: _user$project$View$photoToImg(model.selectedPhoto),
 									_1: {ctor: '[]'}
 								}),
 							_1: {ctor: '[]'}
@@ -9392,13 +9392,15 @@ var _user$project$Update$update = F2(
 				};
 			case 'NewPhoto':
 				if (_p1._0.ctor === 'Ok') {
+					var photo = _user$project$Update$jsonToPhoto(_p1._0._0);
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								lastPhoto: _user$project$Update$jsonToPhoto(_p1._0._0),
-								state: _user$project$Model$Fetched
+								selectedPhoto: photo,
+								state: _user$project$Model$Fetched,
+								photos: {ctor: '::', _0: photo, _1: model.photos}
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
