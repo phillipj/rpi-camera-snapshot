@@ -10,7 +10,7 @@ import Messages exposing (..)
 view : Model -> Html Msg
 view model =
   div []
-    [ div [] [ photosToImgRow model.photos ]
+    [ div [] [ (photosToImgRow model.photos model.selectedPhoto) ]
     , historicalFailureFeedback model.historicalState
     , captureFailureFeedback model.state
     , p [] [ (captureButton model.state) ]
@@ -18,11 +18,11 @@ view model =
     ]
 
 
-photosToImgRow : List (Maybe Photo) -> Html Msg
-photosToImgRow allPhotos =
+photosToImgRow : List (Maybe Photo) -> Maybe Photo -> Html Msg
+photosToImgRow allPhotos selectedPhoto =
   let
     photosToDisplay = List.take 3 allPhotos
-    photoToImg = photoToImgRowItem (List.length photosToDisplay)
+    photoToImg = photoToImgRowItem (List.length photosToDisplay) selectedPhoto
 
   in
     p [ style [ ("display", "flex")
@@ -34,29 +34,28 @@ photosToImgRow allPhotos =
 -- partial application in action; photosCount is provided when creating the anon function,
 -- the remaining args are provided when invoked per item in List.indexedMap
 --                   total photos count -> index -> photo -> html
-photoToImgRowItem : Int -> Int -> Maybe Photo -> Html Msg
-photoToImgRowItem photosCount index possiblyPhoto =
-    let
-      isLastPhoto = index == (photosCount - 1)
-      rightMargin = if isLastPhoto then "0px" else "5px"
-
-    in
-      case possiblyPhoto of
-        Just photo ->
-          historicalPhotoHtml photo rightMargin
-        Nothing ->
-          historicalPhotoPlaceholder rightMargin
-
-historicalPhotoHtml : Photo -> String -> Html Msg
-historicalPhotoHtml photo rightMargin =
+photoToImgRowItem : Int -> Maybe Photo -> Int -> Maybe Photo -> Html Msg
+photoToImgRowItem photosCount selectedPhoto index possiblyPhoto =
   let
-    inlineStyles = [ ("height", "60px")
-                   , ("margin-right", rightMargin)
-                   ]
+    isLastPhoto = index == (photosCount - 1)
+    isSelected = possiblyPhoto == selectedPhoto
+    rightMargin = if isLastPhoto then "0px" else "5px"
+
+  in
+    case possiblyPhoto of
+      Just photo ->
+        historicalPhotoHtml photo rightMargin isSelected
+      Nothing ->
+        historicalPhotoPlaceholder rightMargin
+
+historicalPhotoHtml : Photo -> String -> Bool -> Html Msg
+historicalPhotoHtml photo rightMargin isSelected =
+  let
+    borderStyle = if isSelected then ("outline", "2px solid grey") else ("outline", "1px solid lightgrey")
 
   in
     a [ href "#", onClick (DisplayPhoto photo) ]
-      [ img [ src photo.src, style [("height", "60px")] ] []
+      [ img [ src photo.src, style [("height", "60px"), borderStyle] ] []
       ]
 
 

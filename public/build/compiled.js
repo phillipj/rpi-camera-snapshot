@@ -9220,17 +9220,9 @@ var _user$project$View$historicalPhotoPlaceholder = function (rightMargin) {
 			_1: {ctor: '[]'}
 		});
 };
-var _user$project$View$historicalPhotoHtml = F2(
-	function (photo, rightMargin) {
-		var inlineStyles = {
-			ctor: '::',
-			_0: {ctor: '_Tuple2', _0: 'height', _1: '60px'},
-			_1: {
-				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: 'margin-right', _1: rightMargin},
-				_1: {ctor: '[]'}
-			}
-		};
+var _user$project$View$historicalPhotoHtml = F3(
+	function (photo, rightMargin, isSelected) {
+		var borderStyle = isSelected ? {ctor: '_Tuple2', _0: 'outline', _1: '2px solid grey'} : {ctor: '_Tuple2', _0: 'outline', _1: '1px solid lightgrey'};
 		return A2(
 			_elm_lang$html$Html$a,
 			{
@@ -9256,7 +9248,11 @@ var _user$project$View$historicalPhotoHtml = F2(
 								{
 									ctor: '::',
 									_0: {ctor: '_Tuple2', _0: 'height', _1: '60px'},
-									_1: {ctor: '[]'}
+									_1: {
+										ctor: '::',
+										_0: borderStyle,
+										_1: {ctor: '[]'}
+									}
 								}),
 							_1: {ctor: '[]'}
 						}
@@ -9265,39 +9261,43 @@ var _user$project$View$historicalPhotoHtml = F2(
 				_1: {ctor: '[]'}
 			});
 	});
-var _user$project$View$photoToImgRowItem = F3(
-	function (photosCount, index, possiblyPhoto) {
+var _user$project$View$photoToImgRowItem = F4(
+	function (photosCount, selectedPhoto, index, possiblyPhoto) {
+		var isSelected = _elm_lang$core$Native_Utils.eq(possiblyPhoto, selectedPhoto);
 		var isLastPhoto = _elm_lang$core$Native_Utils.eq(index, photosCount - 1);
 		var rightMargin = isLastPhoto ? '0px' : '5px';
 		var _p1 = possiblyPhoto;
 		if (_p1.ctor === 'Just') {
-			return A2(_user$project$View$historicalPhotoHtml, _p1._0, rightMargin);
+			return A3(_user$project$View$historicalPhotoHtml, _p1._0, rightMargin, isSelected);
 		} else {
 			return _user$project$View$historicalPhotoPlaceholder(rightMargin);
 		}
 	});
-var _user$project$View$photosToImgRow = function (allPhotos) {
-	var photosToDisplay = A2(_elm_lang$core$List$take, 3, allPhotos);
-	var photoToImg = _user$project$View$photoToImgRowItem(
-		_elm_lang$core$List$length(photosToDisplay));
-	return A2(
-		_elm_lang$html$Html$p,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$style(
-				{
-					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'display', _1: 'flex'},
-					_1: {
+var _user$project$View$photosToImgRow = F2(
+	function (allPhotos, selectedPhoto) {
+		var photosToDisplay = A2(_elm_lang$core$List$take, 3, allPhotos);
+		var photoToImg = A2(
+			_user$project$View$photoToImgRowItem,
+			_elm_lang$core$List$length(photosToDisplay),
+			selectedPhoto);
+		return A2(
+			_elm_lang$html$Html$p,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$style(
+					{
 						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'justify-content', _1: 'space-around'},
-						_1: {ctor: '[]'}
-					}
-				}),
-			_1: {ctor: '[]'}
-		},
-		A2(_elm_lang$core$List$indexedMap, photoToImg, photosToDisplay));
-};
+						_0: {ctor: '_Tuple2', _0: 'display', _1: 'flex'},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'justify-content', _1: 'space-around'},
+							_1: {ctor: '[]'}
+						}
+					}),
+				_1: {ctor: '[]'}
+			},
+			A2(_elm_lang$core$List$indexedMap, photoToImg, photosToDisplay));
+	});
 var _user$project$View$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -9309,7 +9309,7 @@ var _user$project$View$view = function (model) {
 				{ctor: '[]'},
 				{
 					ctor: '::',
-					_0: _user$project$View$photosToImgRow(model.photos),
+					_0: A2(_user$project$View$photosToImgRow, model.photos, model.selectedPhoto),
 					_1: {ctor: '[]'}
 				}),
 			_1: {
