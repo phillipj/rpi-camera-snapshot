@@ -9354,10 +9354,6 @@ var _user$project$Update$toMaybePhotos = function (photos) {
 		},
 		photos);
 };
-var _user$project$Update$requestNewPhoto = function () {
-	var request = _elm_lang$http$Http$getString('photo');
-	return A2(_elm_lang$http$Http$send, _user$project$Messages$NewPhoto, request);
-}();
 var _user$project$Update$jsonPhotoDecoder = A2(
 	_elm_lang$core$Json_Decode$map,
 	_user$project$Model$Photo,
@@ -9367,15 +9363,10 @@ var _user$project$Update$requestHistoricalPhotos = function () {
 	var request = A2(_elm_lang$http$Http$get, 'historical-photos', _user$project$Update$jsonPhotoListDecoder);
 	return A2(_elm_lang$http$Http$send, _user$project$Messages$HistoricalPhotos, request);
 }();
-var _user$project$Update$jsonToPhoto = function (str) {
-	var decoded = A2(_elm_lang$core$Json_Decode$decodeString, _user$project$Update$jsonPhotoDecoder, str);
-	var _p0 = decoded;
-	if (_p0.ctor === 'Ok') {
-		return _elm_lang$core$Maybe$Just(_p0._0);
-	} else {
-		return _elm_lang$core$Maybe$Nothing;
-	}
-};
+var _user$project$Update$requestNewPhoto = function () {
+	var request = A2(_elm_lang$http$Http$get, 'photo', _user$project$Update$jsonPhotoDecoder);
+	return A2(_elm_lang$http$Http$send, _user$project$Messages$NewPhoto, request);
+}();
 var _user$project$Update$init = {
 	ctor: '_Tuple2',
 	_0: A4(
@@ -9400,8 +9391,8 @@ var _user$project$Update$init = {
 };
 var _user$project$Update$update = F2(
 	function (msg, model) {
-		var _p1 = msg;
-		switch (_p1.ctor) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
 			case 'CapturePhoto':
 				return {
 					ctor: '_Tuple2',
@@ -9411,16 +9402,20 @@ var _user$project$Update$update = F2(
 					_1: _user$project$Update$requestNewPhoto
 				};
 			case 'NewPhoto':
-				if (_p1._0.ctor === 'Ok') {
-					var photo = _user$project$Update$jsonToPhoto(_p1._0._0);
+				if (_p0._0.ctor === 'Ok') {
+					var _p1 = _p0._0._0;
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								selectedPhoto: photo,
+								selectedPhoto: _elm_lang$core$Maybe$Just(_p1),
 								state: _user$project$Model$Fetched,
-								photos: {ctor: '::', _0: photo, _1: model.photos}
+								photos: {
+									ctor: '::',
+									_0: _elm_lang$core$Maybe$Just(_p1),
+									_1: model.photos
+								}
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
 					};
@@ -9442,13 +9437,13 @@ var _user$project$Update$update = F2(
 					_1: _user$project$Update$requestHistoricalPhotos
 				};
 			case 'HistoricalPhotos':
-				if (_p1._0.ctor === 'Ok') {
+				if (_p0._0.ctor === 'Ok') {
 					return {
 						ctor: '_Tuple2',
 						_0: _elm_lang$core$Native_Utils.update(
 							model,
 							{
-								photos: _user$project$Update$toMaybePhotos(_p1._0._0),
+								photos: _user$project$Update$toMaybePhotos(_p0._0._0),
 								historicalState: _user$project$Model$Fetched
 							}),
 						_1: _elm_lang$core$Platform_Cmd$none
@@ -9468,7 +9463,7 @@ var _user$project$Update$update = F2(
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
 						{
-							selectedPhoto: _elm_lang$core$Maybe$Just(_p1._0)
+							selectedPhoto: _elm_lang$core$Maybe$Just(_p0._0)
 						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};

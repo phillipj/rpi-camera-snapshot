@@ -7,7 +7,7 @@ import Model exposing (..)
 
 type Msg
   = CapturePhoto
-  | NewPhoto (Result Http.Error String)
+  | NewPhoto (Result Http.Error Photo)
   | FetchHistoricalPhotos
   | HistoricalPhotos (Result Http.Error (List Photo))
   | DisplayPhoto Photo

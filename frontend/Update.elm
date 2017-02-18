@@ -11,15 +11,12 @@ update msg model =
   case msg of
     CapturePhoto ->
       ({ model | state = Fetching }, requestNewPhoto)
-    NewPhoto (Ok jsonString) ->
-      let
-        photo = (jsonToPhoto jsonString)
-      in
-        ({ model
-            | selectedPhoto = photo
-            , state = Fetched
-            , photos = photo :: model.photos
-         }, Cmd.none)
+    NewPhoto (Ok photo) ->
+      ({ model
+          | selectedPhoto = Just photo
+          , state = Fetched
+          , photos = Just photo :: model.photos
+       }, Cmd.none)
     NewPhoto (Err _) ->
       ({ model | state = Failed }, Cmd.none)
     FetchHistoricalPhotos ->
@@ -45,28 +42,19 @@ jsonPhotoDecoder =
   Decode.map Photo
     (Decode.field "src" Decode.string)
 
+
 jsonPhotoListDecoder : Decode.Decoder (List Photo)
 jsonPhotoListDecoder =
   Decode.list jsonPhotoDecoder
 
-jsonToPhoto : String -> Maybe Photo
-jsonToPhoto str =
-  let
-    decoded = Decode.decodeString jsonPhotoDecoder str
-  in
-    case decoded of
-      Ok photo ->
-        Just photo
-
-      Err msg ->
-        Nothing
 
 requestNewPhoto : Cmd Msg
 requestNewPhoto =
   let
-    request = Http.getString "photo"
+    request = Http.get "photo" jsonPhotoDecoder
   in
     Http.send NewPhoto request
+
 
 requestHistoricalPhotos : Cmd Msg
 requestHistoricalPhotos =
