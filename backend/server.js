@@ -1,3 +1,4 @@
+const compression = require('compression');
 const express = require('express');
 const http = require('http');
 const fs = require('fs');
@@ -68,6 +69,7 @@ function renamePhotoWithTimestamp(originalFilename) {
   });
 }
 
+app.use(compression());
 app.use('/', express.static(path.join(__dirname, '..', 'public')));
 
 app.get('/photo', (req, res) => {
