@@ -19,6 +19,7 @@
   "author": "Phillip Johnsen <johphi@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "async": "2.1.5",
     "compression": "1.6.2",
     "elm": "^0.18.0",
     "express": "^4.13.4",

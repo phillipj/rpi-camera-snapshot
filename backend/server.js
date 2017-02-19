@@ -1,3 +1,4 @@
+const async = require('async');
 const compression = require('compression');
 const express = require('express');
 const http = require('http');
@@ -25,9 +26,16 @@ const isProduction = process.env.NODE_ENV === 'production';
 const halfASecond = 1 * 500;
 let proc;
 
+function now() {
+  return new Date().toISOString();
+}
+
 function respondWithExamplePhoto(res) {
   setTimeout(() => {
-    res.json({ src: 'photos/example.jpg' });
+    res.json({
+      src: 'photos/example.jpg',
+      capturedTimestamp: now()
+    });
   }, halfASecond);
 }
 
@@ -69,6 +77,20 @@ function renamePhotoWithTimestamp(originalFilename) {
   });
 }
 
+function resolvePhotoCreatedTime(filename, cb) {
+  const filepath = path.join(photosDirectory, filename);
+  return fs.stat(filepath, (err, stats) => {
+    if (err) {
+      return cb(err);
+    }
+
+    cb(null, {
+      filename,
+      capturedTimestamp: stats.ctime.toISOString()
+    });
+  })
+}
+
 app.use(compression());
 app.use('/', express.static(path.join(__dirname, '..', 'public')));
 
@@ -78,7 +100,10 @@ app.get('/photo', (req, res) => {
       .then(renamePhotoWithTimestamp)
       .then((filename) => {
         const photoFileUrl = `photos/${filename}`
-        res.json({ src: photoFileUrl });
+        res.json({
+          src: photoFileUrl,
+          capturedTimestamp: now()
+         });
       }, (err) => {
         res.status(500).end(String(err));
       });
@@ -93,9 +118,19 @@ app.get('/historical-photos', (req, res) => {
       return res.status(500).end('Could not read photos directory');
     }
 
-    const photos = files.map(file => `photos/${file}`)
-                        .map(url => ({ src: url }));
-    res.json(photos);
+    async.map(files, resolvePhotoCreatedTime, (err, filesWithCapturedDate) => {
+      if (err) {
+        return res.status(500).end('Could not read created time of photos');
+      }
+
+      const photos = filesWithCapturedDate
+                      .map(fileObj => ({
+                        src: `photos/${fileObj.filename}`,
+                        capturedTimestamp: fileObj.capturedTimestamp
+                      }));
+
+      res.json(photos);
+    });
   });
 });
 
