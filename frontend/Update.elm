@@ -2,6 +2,7 @@ module Update exposing (..)
 
 import Http
 import Json.Decode as Decode
+import Date
 import Model exposing (..)
 import Messages exposing (..)
 
@@ -49,8 +50,23 @@ init =
 
 jsonPhotoDecoder : Decode.Decoder Photo
 jsonPhotoDecoder =
-    Decode.map Photo
+    Decode.map2 Photo
         (Decode.field "src" Decode.string)
+        (Decode.field "capturedTimestamp" Decode.string
+            {- since there is no Decode.date, we have to parse date from string manually
+               after it has been read into a string
+            -}
+            |>
+                Decode.andThen
+                    (\str ->
+                        case Date.fromString str of
+                            Err err ->
+                                Decode.fail err
+
+                            Ok parsedDate ->
+                                Decode.succeed parsedDate
+                    )
+        )
 
 
 jsonPhotoListDecoder : Decode.Decoder (List Photo)

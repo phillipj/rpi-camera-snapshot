@@ -3,6 +3,8 @@ module View exposing (view)
 import Html exposing (..)
 import Html.Attributes exposing (class, src, style, href)
 import Html.Events exposing (onClick)
+import Date
+import Date.Format
 import Model exposing (..)
 import Messages exposing (..)
 
@@ -14,7 +16,10 @@ view model =
         , historicalFailureFeedback model.historicalState
         , captureFailureFeedback model.state
         , p [] [ (captureButton model.state) ]
-        , p [] [ (photoToImg model.selectedPhoto) ]
+        , p [ style [ ( "position", "relative" ) ] ]
+            [ (photoToImg model.selectedPhoto)
+            , (photoDateOverlay model.selectedPhoto)
+            ]
         ]
 
 
@@ -123,7 +128,8 @@ photoToImg possiblyPhoto =
             let
                 styles =
                     style
-                        [ ( "border", "1px solid lightgrey" )
+                        [ ( "position", "absolute" )
+                        , ( "border", "1px solid lightgrey" )
                         , ( "width", "100%" )
                         ]
             in
@@ -131,6 +137,36 @@ photoToImg possiblyPhoto =
 
         Nothing ->
             text ""
+
+
+photoDateOverlay : Maybe Photo -> Html Msg
+photoDateOverlay possiblyPhoto =
+    case possiblyPhoto of
+        Just photo ->
+            let
+                styles =
+                    style
+                        [ ( "position", "absolute" )
+                        , ( "width", "100%" )
+                        , ( "padding", "5px" )
+                        , ( "z-index", "2" )
+                        , ( "background-color", "black" )
+                        , ( "color", "white" )
+                        , ( "opacity", "0.5" )
+                        , ( "font-size", "17px" )
+                        , ( "font-weight", "bold" )
+                        , ( "text-align", "center" )
+                        ]
+            in
+                span [ styles ] [ text (formatOverlayDate photo.capturedTimestamp) ]
+
+        Nothing ->
+            text ""
+
+
+formatOverlayDate : Date.Date -> String
+formatOverlayDate =
+    Date.Format.format "%d/%m-%y %H:%M"
 
 
 captureButton : Progress -> Html Msg

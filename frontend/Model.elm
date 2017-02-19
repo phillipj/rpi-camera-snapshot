@@ -1,5 +1,7 @@
 module Model exposing (..)
 
+import Date
+
 
 type alias Model =
     { selectedPhoto : Maybe Photo
@@ -11,6 +13,7 @@ type alias Model =
 
 type alias Photo =
     { src : String
+    , capturedTimestamp : Date.Date
     }
 
 
