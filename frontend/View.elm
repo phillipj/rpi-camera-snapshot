@@ -148,6 +148,7 @@ captureButton progress =
                 , ( "height", "150px" )
                 , ( "background-color", "#f9f9f9" )
                 , ( "border", "1px solid lightgrey" )
+                , ( "outline", "0" )
                 , ( "font-size", "50px" )
                 ]
             , onClick CapturePhoto

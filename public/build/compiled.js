@@ -9078,8 +9078,12 @@ var _user$project$View$captureButton = function (progress) {
 								_0: {ctor: '_Tuple2', _0: 'border', _1: '1px solid lightgrey'},
 								_1: {
 									ctor: '::',
-									_0: {ctor: '_Tuple2', _0: 'font-size', _1: '50px'},
-									_1: {ctor: '[]'}
+									_0: {ctor: '_Tuple2', _0: 'outline', _1: '0'},
+									_1: {
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: 'font-size', _1: '50px'},
+										_1: {ctor: '[]'}
+									}
 								}
 							}
 						}
