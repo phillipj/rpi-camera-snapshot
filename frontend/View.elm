@@ -36,6 +36,7 @@ photosToImgRow allPhotos selectedPhoto =
             [ style
                 [ ( "display", "flex" )
                 , ( "justify-content", "space-around" )
+                , ( "height", "70px" )
                 ]
             ]
             (List.indexedMap photoToImg photosToDisplay)
@@ -73,14 +74,17 @@ photoToImgRowItem photosCount selectedPhoto index possiblyPhoto =
 historicalPhotoHtml : Photo -> String -> Bool -> Html Msg
 historicalPhotoHtml photo rightMargin isSelected =
     let
-        borderStyle =
+        baseStyles =
+            [ ( "height", "60px" ), ( "transition", "0.15s linear" ) ]
+
+        extraStyles =
             if isSelected then
-                ( "outline", "2px solid grey" )
+                [ ( "outline", "2px solid grey" ), ( "height", "65px" ) ]
             else
-                ( "outline", "1px solid lightgrey" )
+                [ ( "outline", "1px solid lightgrey" ) ]
     in
         a [ href "#", onClick (DisplayPhoto photo) ]
-            [ img [ src photo.src, style [ ( "height", "60px" ), borderStyle ] ] []
+            [ img [ src photo.src, style (baseStyles ++ extraStyles) ] []
             ]
 
 

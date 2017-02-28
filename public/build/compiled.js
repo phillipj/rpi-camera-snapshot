@@ -9760,7 +9760,28 @@ var _user$project$View$historicalPhotoPlaceholder = function (rightMargin) {
 };
 var _user$project$View$historicalPhotoHtml = F3(
 	function (photo, rightMargin, isSelected) {
-		var borderStyle = isSelected ? {ctor: '_Tuple2', _0: 'outline', _1: '2px solid grey'} : {ctor: '_Tuple2', _0: 'outline', _1: '1px solid lightgrey'};
+		var extraStyles = isSelected ? {
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'outline', _1: '2px solid grey'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'height', _1: '65px'},
+				_1: {ctor: '[]'}
+			}
+		} : {
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'outline', _1: '1px solid lightgrey'},
+			_1: {ctor: '[]'}
+		};
+		var baseStyles = {
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: 'height', _1: '60px'},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: 'transition', _1: '0.15s linear'},
+				_1: {ctor: '[]'}
+			}
+		};
 		return A2(
 			_elm_lang$html$Html$a,
 			{
@@ -9783,15 +9804,7 @@ var _user$project$View$historicalPhotoHtml = F3(
 						_1: {
 							ctor: '::',
 							_0: _elm_lang$html$Html_Attributes$style(
-								{
-									ctor: '::',
-									_0: {ctor: '_Tuple2', _0: 'height', _1: '60px'},
-									_1: {
-										ctor: '::',
-										_0: borderStyle,
-										_1: {ctor: '[]'}
-									}
-								}),
+								A2(_elm_lang$core$Basics_ops['++'], baseStyles, extraStyles)),
 							_1: {ctor: '[]'}
 						}
 					},
@@ -9829,7 +9842,11 @@ var _user$project$View$photosToImgRow = F2(
 						_1: {
 							ctor: '::',
 							_0: {ctor: '_Tuple2', _0: 'justify-content', _1: 'space-around'},
-							_1: {ctor: '[]'}
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'height', _1: '70px'},
+								_1: {ctor: '[]'}
+							}
 						}
 					}),
 				_1: {ctor: '[]'}
