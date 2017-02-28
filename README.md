@@ -42,7 +42,7 @@ $ git pull origin master
 
 ### Building Elm -> JavaScript
 
-Since the current Elm compiler does not support being run a ARM, I gone with the pragmatic approach
+Since the current Elm compiler does not support being run on ARM, I gone with the pragmatic approach
 and build Elm to JavaScript then commit the JavaScrpt bundle to git. Whenver I pull git for updates,
 the frontend is already built and the Node.js server can be started immediately.
 
