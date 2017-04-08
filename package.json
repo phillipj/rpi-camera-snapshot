@@ -4,8 +4,8 @@
   "description": "Taking camera photos with a Raspberry Pi",
   "main": "backend/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rimraf public/build && webpack -p",
+    "postinstall": "elm-package install -y",
     "start": "webpack-dev-server"
   },
   "private": true,
