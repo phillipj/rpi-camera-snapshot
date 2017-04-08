@@ -9,11 +9,23 @@ on a Raspberry Pi to capture photos.
 
 ```bash
 $ npm install
-$ npm run build # builds Elm frontend to JavaScript
-$ node .
+$ npm start & node .
 ```
 
-Then visit [http://localhost:3000](http://localhost:3000) in your favorite browser.
+Then visit [http://localhost:8080](http://localhost:8080) in your favorite browser.
+
+## Build for production
+
+```bash
+$ npm run build
+```
+
+## Run in production
+
+```bash
+$ npm install --production
+$ node .
+```
 
 ### Prerequisites
 
