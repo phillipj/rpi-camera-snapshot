@@ -17,5 +17,8 @@ module.exports = {
     publicPath: '/build/',
     contentBase: path.join(__dirname, 'public'),
     compress: true,
+    proxy: {
+      '/api': 'http://localhost:3000'
+    }
   }
 }

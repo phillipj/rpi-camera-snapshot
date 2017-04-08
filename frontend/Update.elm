@@ -78,7 +78,7 @@ requestNewPhoto : Cmd Msg
 requestNewPhoto =
     let
         request =
-            Http.get "photo" jsonPhotoDecoder
+            Http.get "api/photo" jsonPhotoDecoder
     in
         Http.send NewPhoto request
 
@@ -87,7 +87,7 @@ requestHistoricalPhotos : Cmd Msg
 requestHistoricalPhotos =
     let
         request =
-            Http.get "historical-photos" jsonPhotoListDecoder
+            Http.get "api/historical-photos" jsonPhotoListDecoder
     in
         Http.send HistoricalPhotos request
 

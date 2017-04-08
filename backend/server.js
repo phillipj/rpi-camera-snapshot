@@ -94,7 +94,7 @@ function resolvePhotoCreatedTime(filename, cb) {
 app.use(compression());
 app.use('/', express.static(path.join(__dirname, '..', 'public')));
 
-app.get('/photo', (req, res) => {
+app.get('/api/photo', (req, res) => {
   if (isProduction) {
     capturePhoto()
       .then(renamePhotoWithTimestamp)
@@ -112,7 +112,7 @@ app.get('/photo', (req, res) => {
   }
 });
 
-app.get('/historical-photos', (req, res) => {
+app.get('/api/historical-photos', (req, res) => {
   fs.readdir(photosDirectory, (err, files) => {
     if (err) {
       return res.status(500).end('Could not read photos directory');
